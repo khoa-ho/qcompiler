@@ -12,6 +12,7 @@ let string_of_token (t:token) : string =
   | TNot     -> "x"
   | TCnot    -> "cx"
   | TMeasr   -> "measure"
+  | TPass    -> "|>"
   | TVar x   -> "$" ^ x
   | TLBrack  -> "["
   | TRBrack  -> "]"
@@ -66,9 +67,10 @@ rule lex =
   | "x"       { TNot }
   | "cx"      { TCnot }
   | "measure" { TMeasr }
-  | '['       { TLBrack }
-  | ']'       { TRBrack }
-  | ','       { TComma }
+  | "|>"      { TPass }
+  | "["       { TLBrack }
+  | "]"       { TRBrack }
+  | ","       { TComma }
   | "->"      { TArrow }
   | ";"       { TSColon }
   | var       { TVar (lexeme lexbuf) }

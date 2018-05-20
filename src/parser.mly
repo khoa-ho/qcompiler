@@ -7,9 +7,12 @@
 %token TLBrack TRBrack
 %token TQreg TCreg
 %token TNot THdm TCnot TMeasr
-%token TComma TArrow
+%token TPass TComma TArrow
 %token TSColon
 %token EOF
+
+%nonassoc TComma TArrow
+%right TPass
 
 %start parse                  /* the entry point */
 %type <Lang.exp list> parse
@@ -21,14 +24,15 @@ parse:
 
 statement:
   | e = expr TSColon                  { e }
+  | i = init TSColon                  { i }
+
+init:
+  | TQreg e = expr                    { EQreg e }
+  | TCreg e = expr                    { ECreg e }
 
 expr:
-  | TQreg r = reg                     { EQreg r }
-  | TCreg r = reg                     { ECreg r }
-  | TNot r = reg                      { ENot r }
-  | THdm r = reg                      { EHdm r }
-  | TCnot r1 = reg TComma r2 = reg    { ECnot (r1, r2) }
-  | TMeasr r1 = reg TArrow r2 = reg   { EMeasr (r1, r2) }
-
-reg:
   | x = TVar TLBrack i = TInt TRBrack { EReg (x, i) }
+  | e = expr TPass TNot               { ENot e }
+  | e = expr TPass THdm               { EHdm e }
+  | TCnot e1 = expr TComma e2 = expr  { ECnot (e1, e2) }
+  | TMeasr e1 = expr TArrow e2 = expr { EMeasr (e1, e2) }
