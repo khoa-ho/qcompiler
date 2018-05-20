@@ -67,7 +67,7 @@ rule lex =
   | "x"       { TNot }
   | "cx"      { TCnot }
   | "measure" { TMeasr }
-  | "|>"      { TPass }
+  | ">"       { TPass }
   | "["       { TLBrack }
   | "]"       { TRBrack }
   | ","       { TComma }
