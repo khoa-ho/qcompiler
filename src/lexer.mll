@@ -22,10 +22,14 @@ let string_of_token (t:token) : string =
   | TRBrack  -> "]"
   | TLParen  -> "("
   | TRParen  -> ")"
+  | TLBrace  -> "{"
+  | TRBrace  -> "}"
   | TIf      -> "if"
   | TEqual   -> "=="
   | TComma   -> ","
   | TArrow   -> "->"
+  | TBarrier -> "barrier"
+  | TGate    -> "gate"
   | TSColon  -> ";"
   | EOF      -> "EOF"
 
@@ -69,6 +73,7 @@ let var = alpha ['a'-'z' 'A'-'Z' '0'-'9' '_']*
 rule lex = 
   parse
   | int       { TInt (int_of_string (lexeme lexbuf)) }
+  | '"'       { TStr (read_string (Buffer.create 17) lexbuf) }
   | "include" { TInc }
   | "qreg"    { TQreg }
   | "creg"    { TCreg }
@@ -83,12 +88,15 @@ rule lex =
   | ']'       { TRBrack }
   | '('       { TLParen }
   | ')'       { TRParen }
+  | '{'       { TLBrace }
+  | '}'       { TRBrace }
   | ','       { TComma }
   | "->"      { TArrow }
   | "if"      { TIf }
   | "=="      { TEqual }
+  | "barrier" { TBarrier }
+  | "gate"    { TGate }
   | ';'       { TSColon }
-  | '"'       { TStr (read_string (Buffer.create 17) lexbuf) }
   | var       { TVar (lexeme lexbuf) }
   | white     { lex lexbuf }
   | newline   { next_line lexbuf; lex lexbuf }
