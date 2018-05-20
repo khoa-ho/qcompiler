@@ -37,8 +37,8 @@ init:
   | TCreg r = reg                     { ECreg r }
 
 gate_def:
-  | TGate g_id = TVar r_id = TVar TLBrace stmt_lst = list(statement) TRBrace
-    { EGate (g_id, r_id, stmt_lst) }
+  | TGate g_id = TVar r_id_lst = separated_list(TComma, TVar) TLBrace stmt_lst = list(statement) TRBrace
+    { EGate (g_id, r_id_lst, stmt_lst) }
 
 statement:
   | e = expr TSColon                  { e }

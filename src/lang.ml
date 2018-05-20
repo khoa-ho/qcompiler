@@ -14,7 +14,7 @@ type exp =
   | EMeasr   of exp * exp
   | EIf      of exp * int * exp
   | EBarrier of exp list
-  | EGate    of string * string * exp list
+  | EGate    of string * string list * exp list
 
 let error err_msg =
   fprintf stderr "Error: %s\n" err_msg; exit 1
@@ -33,9 +33,10 @@ let rec string_of_exp (e:exp) : string =
   | EBarrier r_lst  -> 
     let r_str_lst = List.map string_of_exp r_lst in
     sprintf "barrier %s" (String.concat ", " r_str_lst)
-  | EGate (g_id, r_id, e_lst) ->
+  | EGate (g_id, r_id_lst, e_lst) ->
+    let r_id_lst_str = String.concat ", " r_id_lst in 
     let e_str_lst = List.map string_of_exp e_lst in
-    sprintf "gate %s %s\n{\n%s;\n}" g_id r_id (String.concat ";\n" e_str_lst)
+    sprintf "gate %s %s\n{\n%s;\n}" g_id r_id_lst_str (String.concat ";\n" e_str_lst)
   | _ -> 
     let app_lst, reg = find_gate_app_list e in
     app_lst 
@@ -59,7 +60,9 @@ and string_of_gate (e:exp) : string * exp =
   | _          -> error "Expected a gate!"
 
 let string_of_statement (e:exp) : string =
-  sprintf "%s;" (string_of_exp e)
+  match e with
+  | EGate (_, _, _) -> string_of_exp e
+  | _               -> string_of_exp e ^ ";"
 
 let string_of_stmt_list (el:exp list) : string list =
   List.map string_of_statement el
