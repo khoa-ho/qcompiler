@@ -1,6 +1,7 @@
 open Printf
 
 type exp =
+  | EInc   of string
   | EReg   of string * int
   | EQreg  of exp
   | ECreg  of exp
@@ -8,7 +9,6 @@ type exp =
   | EHdm   of exp
   | ECnot  of exp * exp
   | EMeasr of exp * exp
-  | EInc   of string
 
 let error err_msg =
   fprintf stderr "Error: %s\n" err_msg; exit 1
