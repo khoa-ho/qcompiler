@@ -7,13 +7,14 @@
 %token <string> TVar TStr
 %token TLBrack TRBrack
 %token TQreg TCreg
-%token TNot THdm TCnot TMeasr
+%token TPauliX TPauliY TPauliZ
+%token THdm 
+%token TCnot 
+%token TMeasr
 %token TPass TComma TArrow
+%token TLParen TRParen TIf TEqual
 %token TSColon
 %token EOF
-
-%nonassoc TComma TArrow
-%right TPass
 
 %start parse                  /* the entry point */
 %type <Lang.exp list> parse
@@ -24,17 +25,27 @@ parse:
   | stmt = statement m = parse        { stmt :: m }
 
 statement:
-  | e = expr TSColon                  { e }
   | i = init TSColon                  { i }
+  | e = expr TSColon                  { e }
+  | ce = c_expr TSColon               { ce }
 
 init:
-  | TQreg e = expr                    { EQreg e }
-  | TCreg e = expr                    { ECreg e }
-
-expr:
   | TInc s = TStr                     { EInc s }
-  | x = TVar TLBrack i = TInt TRBrack { EReg (x, i) }
-  | e = expr TPass TNot               { ENot e }
-  | e = expr TPass THdm               { EHdm e }
+  | TQreg r = reg                     { EQreg r }
+  | TCreg r = reg                     { ECreg r }
+
+c_expr:
   | TCnot e1 = expr TComma e2 = expr  { ECnot (e1, e2) }
   | TMeasr e1 = expr TArrow e2 = expr { EMeasr (e1, e2) }
+  | TIf TLParen cr = reg TEqual i = TInt TRParen e = expr
+    { EIf (cr, i, e) }
+
+expr:
+  | r = reg                           { r }
+  | e = expr TPass TPauliX            { EPauliX e }
+  | e = expr TPass TPauliY            { EPauliY e }
+  | e = expr TPass TPauliZ            { EPauliZ e }
+  | e = expr TPass THdm               { EHdm e }
+
+reg:
+  | x = TVar TLBrack i = TInt TRBrack { EReg (x, i) }

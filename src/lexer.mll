@@ -11,13 +11,19 @@ let string_of_token (t:token) : string =
   | TQreg    -> "qreg"
   | TCreg    -> "creg"
   | THdm     -> "h"
-  | TNot     -> "x"
+  | TPauliX  -> "x"
+  | TPauliY  -> "y"
+  | TPauliZ  -> "z"
   | TCnot    -> "cx"
   | TMeasr   -> "measure"
   | TPass    -> "|>"
   | TVar x   -> "$" ^ x
   | TLBrack  -> "["
   | TRBrack  -> "]"
+  | TLParen  -> "("
+  | TRParen  -> ")"
+  | TIf      -> "if"
+  | TEqual   -> "=="
   | TComma   -> ","
   | TArrow   -> "->"
   | TSColon  -> ";"
@@ -67,14 +73,20 @@ rule lex =
   | "qreg"    { TQreg }
   | "creg"    { TCreg }
   | 'h'       { THdm }
-  | 'x'       { TNot }
+  | 'x'       { TPauliX }
+  | 'y'       { TPauliY }
+  | 'z'       { TPauliZ }
   | "cx"      { TCnot }
   | "measure" { TMeasr }
   | '>'       { TPass }
   | '['       { TLBrack }
   | ']'       { TRBrack }
+  | '('       { TLParen }
+  | ')'       { TRParen }
   | ','       { TComma }
   | "->"      { TArrow }
+  | "if"      { TIf }
+  | "=="      { TEqual }
   | ';'       { TSColon }
   | '"'       { TStr (read_string (Buffer.create 17) lexbuf) }
   | var       { TVar (lexeme lexbuf) }
