@@ -2,8 +2,9 @@
   open Lang
 %}
 
+%token TInc  
 %token <int> TInt 
-%token <string> TVar
+%token <string> TVar TStr
 %token TLBrack TRBrack
 %token TQreg TCreg
 %token TNot THdm TCnot TMeasr
@@ -31,6 +32,7 @@ init:
   | TCreg e = expr                    { ECreg e }
 
 expr:
+  | TInc s = TStr                     { EInc s }
   | x = TVar TLBrack i = TInt TRBrack { EReg (x, i) }
   | e = expr TPass TNot               { ENot e }
   | e = expr TPass THdm               { EHdm e }

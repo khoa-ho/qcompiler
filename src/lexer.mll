@@ -5,7 +5,9 @@ open Lang
 
 let string_of_token (t:token) : string =
   match t with
+  | TStr str -> str
   | TInt n   -> string_of_int n
+  | TInc     -> "include"
   | TQreg    -> "qreg"
   | TCreg    -> "creg"
   | THdm     -> "h"
@@ -61,20 +63,39 @@ let var = alpha ['a'-'z' 'A'-'Z' '0'-'9' '_']*
 rule lex = 
   parse
   | int       { TInt (int_of_string (lexeme lexbuf)) }
+  | "include" { TInc }
   | "qreg"    { TQreg }
   | "creg"    { TCreg }
-  | "h"       { THdm }
-  | "x"       { TNot }
+  | 'h'       { THdm }
+  | 'x'       { TNot }
   | "cx"      { TCnot }
   | "measure" { TMeasr }
-  | ">"       { TPass }
-  | "["       { TLBrack }
-  | "]"       { TRBrack }
-  | ","       { TComma }
+  | '>'       { TPass }
+  | '['       { TLBrack }
+  | ']'       { TRBrack }
+  | ','       { TComma }
   | "->"      { TArrow }
-  | ";"       { TSColon }
+  | ';'       { TSColon }
+  | '"'       { TStr (read_string (Buffer.create 17) lexbuf) }
   | var       { TVar (lexeme lexbuf) }
   | white     { lex lexbuf }
   | newline   { next_line lexbuf; lex lexbuf }
   | _         { raise (SyntaxError (Printf.sprintf "Unexpected char '%s' %s" (lexeme lexbuf) (position lexbuf))) }
   | eof       { EOF }
+
+and read_string buf =
+  parse
+  | '"'       { (Buffer.contents buf) }
+  | '\\' '/'  { Buffer.add_char buf '/'; read_string buf lexbuf }
+  | '\\' '\\' { Buffer.add_char buf '\\'; read_string buf lexbuf }
+  | '\\' 'b'  { Buffer.add_char buf '\b'; read_string buf lexbuf }
+  | '\\' 'f'  { Buffer.add_char buf '\012'; read_string buf lexbuf }
+  | '\\' 'n'  { Buffer.add_char buf '\n'; read_string buf lexbuf }
+  | '\\' 'r'  { Buffer.add_char buf '\r'; read_string buf lexbuf }
+  | '\\' 't'  { Buffer.add_char buf '\t'; read_string buf lexbuf }
+  | [^ '"' '\\']+
+    { Buffer.add_string buf (Lexing.lexeme lexbuf);
+      read_string buf lexbuf
+    }
+  | _ { raise (SyntaxError ("Illegal string character: " ^ Lexing.lexeme lexbuf)) }
+  | eof { raise (SyntaxError ("String is not terminated")) }
