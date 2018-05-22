@@ -53,9 +53,9 @@ Then run the compiler,
 
 ### Examples
 
-## Sample quantunm algorithms
+#### Sample quantunm algorithms
 
-# Deutsch–Jozsa algorithm in QASM,
+##### Deutsch–Jozsa algorithm in QASM,
 from https://github.com/QISKit/openqasm/blob/master/examples/ibmqx2/Deutsch_Algorithm.qasm
 ```
 OPENQASM 2.0;
@@ -87,7 +87,7 @@ q[3] > h;
 measure q[3] -> c[3];
 ```
 
-# Grover's Algorithm in QASM,
+##### Grover's Algorithm in QASM,
 from https://github.com/sampaio96/Quantum-Computing/blob/master/Grover's%20Algorithm/Grover_N_2_A_00.qasm
 
 Note: Clifford gate, s, needs to be supported in order to compile this code.
