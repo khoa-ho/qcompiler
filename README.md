@@ -26,18 +26,18 @@ OCaml (>= 4.02.3) [https://ocaml.org/docs/install.html]
 ### Build
 Following are useful Makefile commands
 
-'make (make all)': build the project
-'make test': build and run the test suite
-'make clean': clean the binaries
+`make (make all)`: build the project
+`make test`: build and run the test suite
+`make clean`: clean the binaries
 
 ### Execute
 First, build the project
 
-'$ make'
+`$ make`
 
 Then run the compiler,
 
-'$ ./compiler.native [source_file_paths]'
+`$ ./compiler.native [source_file_paths]`
 
 ### Supporting Open QASM statements
 
