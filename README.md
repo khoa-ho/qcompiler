@@ -39,7 +39,7 @@ Then run the compiler,
 
 '$ ./compiler.native [source_file_paths]'
 
-### Supporting QASM Open QASM statements
+### Supporting Open QASM statements
 
 |Statement                       | Description                        |
 |--------------------------------|------------------------------------|
@@ -51,11 +51,11 @@ Then run the compiler,
 |CX qubit|qreg,qubit|qreg;       | Apply built-in CNOT gate(s)        |
 |measure qubit|qreg -> bit|creg; | Make measurement(s) in Z basis     |
 
-### Example
+### Examples
 
-Sample quantunm algorithms
+## Sample quantunm algorithms
 
-Deutsch–Jozsa algorithm in QASM,
+# Deutsch–Jozsa algorithm in QASM,
 from https://github.com/QISKit/openqasm/blob/master/examples/ibmqx2/Deutsch_Algorithm.qasm
 ```
 OPENQASM 2.0;
@@ -87,10 +87,10 @@ q[3] > h;
 measure q[3] -> c[3];
 ```
 
-Grover's Algorithm in QASM,
+# Grover's Algorithm in QASM,
 from https://github.com/sampaio96/Quantum-Computing/blob/master/Grover's%20Algorithm/Grover_N_2_A_00.qasm
 
-Note: Clifford gate, s, needs to be implemented in order to compile this code.
+Note: Clifford gate, s, needs to be supported in order to compile this code.
 
 ```
 OPENQASM 2.0;
