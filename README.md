@@ -124,7 +124,7 @@ measure q[1] -> c[1];
 measure q[2] -> c[2];
 ```
 
-Compiled version would be,
+Compiled version will be, when Clifford operations are supported,
 ```
 OPENQASM 2.0;
 include "qelib1.inc";
