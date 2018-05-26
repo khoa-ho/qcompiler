@@ -36,7 +36,7 @@ First, build the project
 
 Then run the compiler,
 
-`$ ./compiler.native [source_file_paths]`
+`$ ./compiler.native [source_file_path]`
 
 ### Supporting Open QASM statements
 
