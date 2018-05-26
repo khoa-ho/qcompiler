@@ -46,9 +46,11 @@ Then run the compiler,
 |qreg name[size];                | Declare a named register of qubits |
 |creg name[size];                | Declare a named register of bits   |
 |include "filename";             | Open and parse another source file |
-|gate name(params) qargs { body }| Declare a unitary gate             |
+|gate name qargs { body }        | Declare a unitary gate             |
 |CX qubit|qreg,qubit|qreg;       | Apply built-in CNOT gate(s)        |
 |measure qubit|qreg -> bit|creg; | Make measurement(s) in Z basis     |
+|if(creg==int) qop;              | Conditionally apply quantum operation |
+|barrier qargs;                  | Prevent transformations across this source line |
 
 ### Examples
 
@@ -57,6 +59,7 @@ Then run the compiler,
 ##### Deutsch–Jozsa algorithm in QASM,
 from https://github.com/QISKit/openqasm/blob/master/examples/ibmqx2/Deutsch_Algorithm.qasm
 ```
+OPENQASM 2.0;
 include "qelib1.inc";
 
 qreg q[5];
@@ -86,6 +89,7 @@ measure q[3] -> c[3];
 
 And it will be compiled as
 ```
+OPENQASM 2.0;
 include "qelib1.inc";
 qreg q[5];
 creg c[5];
@@ -135,7 +139,6 @@ measure q[2] -> c[2];
 
 In our language, the program can be written as
 ```
-OPENQASM 2.0;
 include "qelib1.inc";
 
 qreg q[5];
