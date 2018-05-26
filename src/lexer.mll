@@ -14,6 +14,10 @@ let string_of_token (t:token) : string =
   | TPauliX  -> "x"
   | TPauliY  -> "y"
   | TPauliZ  -> "z"
+  | TSqrtZC  -> "sdg"     
+  | TSqrtZ   -> "s"
+  | TSqrtSC  -> "tdg"
+  | TSqrtS   -> "t"
   | TCnot    -> "cx"
   | TMeasr   -> "measure"
   | TPass    -> "|>"
@@ -81,6 +85,10 @@ rule lex =
   | 'x'       { TPauliX }
   | 'y'       { TPauliY }
   | 'z'       { TPauliZ }
+  | "sdg"     { TSqrtZC }     
+  | 's'       { TSqrtZ }
+  | "tdg"     { TSqrtSC }
+  | 't'       { TSqrtS }
   | "cx"      { TCnot }
   | "measure" { TMeasr }
   | '>'       { TPass }

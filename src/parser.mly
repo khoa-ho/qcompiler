@@ -8,7 +8,9 @@
 %token TLBrack TRBrack
 %token TQreg TCreg
 %token TPauliX TPauliY TPauliZ
-%token THdm 
+%token THdm
+%token TSqrtZ, TSqrtZC
+%token TSqrtS, TSqrtSC  
 %token TCnot 
 %token TMeasr
 %token TPass TComma TArrow
@@ -58,6 +60,11 @@ expr:
   | e = expr TPass TPauliY            { EPauliY e }
   | e = expr TPass TPauliZ            { EPauliZ e }
   | e = expr TPass THdm               { EHdm e }
+  | e = expr TPass TSqrtZ             { ESqrtZ e }
+  | e = expr TPass TSqrtZC            { ESqrtZC e }
+  | e = expr TPass TSqrtS             { ESqrtS e }
+  | e = expr TPass TSqrtSC            { ESqrtSC e }
+
 
 gen_reg:
   | x = TVar                          { EGReg (x) }

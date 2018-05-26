@@ -10,6 +10,10 @@ type exp =
   | EPauliY  of exp
   | EPauliZ  of exp
   | EHdm     of exp
+  | ESqrtZ   of exp
+  | ESqrtZC  of exp
+  | ESqrtS   of exp
+  | ESqrtSC  of exp 
   | ECnot    of exp * exp
   | EMeasr   of exp * exp
   | EIf      of exp * int * exp
@@ -57,6 +61,10 @@ and string_of_gate (e:exp) : string * exp =
   | EPauliY e' -> "y", e'  
   | EPauliZ e' -> "z", e'  
   | EHdm e'    -> "h", e'
+  | ESqrtZ e'  -> "s", e'
+  | ESqrtZC e' -> "sdg", e'
+  | ESqrtS e'  -> "t", e'
+  | ESqrtSC e' -> "tdg", e' 
   | _          -> error "Expected a gate!"
 
 let string_of_statement (e:exp) : string =
@@ -65,4 +73,4 @@ let string_of_statement (e:exp) : string =
   | _               -> string_of_exp e ^ ";"
 
 let string_of_stmt_list (el:exp list) : string list =
-  List.map string_of_statement el
+  "OPENQASM 2.0;" :: List.map string_of_statement el
