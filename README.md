@@ -104,8 +104,6 @@ measure q[3] -> c[3];
 ##### Grover's Algorithm in QASM,
 from https://github.com/sampaio96/Quantum-Computing/blob/master/Grover's%20Algorithm/Grover_N_2_A_00.qasm
 
-Note: Clifford gate, s, needs to be supported in order to compile this code.
-
 ```
 OPENQASM 2.0;
 include "qelib1.inc";
