@@ -47,8 +47,8 @@ Then run the compiler,
 |creg name[size];                | Declare a named register of bits   |
 |include "filename";             | Open and parse another source file |
 |gate name qargs { body }        | Declare a unitary gate             |
-|CX qubit|qreg,qubit|qreg;       | Apply built-in CNOT gate(s)        |
-|measure qubit|qreg -> bit|creg; | Make measurement(s) in Z basis     |
+|CX qubit\|qreg,qubit\|qreg;       | Apply built-in CNOT gate(s)        |
+|measure qubit\|qreg -> bit\|creg; | Make measurement(s) in Z basis     |
 |if(creg==int) qop;              | Conditionally apply quantum operation |
 |barrier qargs;                  | Prevent transformations across this source line |
 
